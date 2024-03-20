@@ -3,19 +3,19 @@ import {
   Text,
   View,
   FlatList,
-  Button,
   TouchableOpacity,
-  Pressable,
+  Switch,
 } from 'react-native';
 import { useContext, useEffect } from 'react';
 import { Context } from '../context/BlogContext';
 import { Feather } from '@expo/vector-icons';
-import { styled, useColorScheme } from 'nativewind';
+import { themeContext } from '../context/themeContext';
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+  const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+  const { colorScheme, toggleColorScheme } = useContext(themeContext);
 
-  const { colorScheme, setColorScheme } = useColorScheme();
+  console.log(colorScheme);
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,22 +27,25 @@ const IndexScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const StyledPressable = styled(Pressable);
-  const StyledText = styled(Text);
+  // useEffect(() => {
+  //   getBlogPosts();
+  // }, []);
 
   return (
-    <View className="flex-1  dark:bg-slate-800">
-      {/* <Button title="Add Post" onPress={addBlogPost} /> */}
+    <View className="flex-1  dark:bg-gray-900 bg-gray-900">
       <FlatList
         data={state}
         keyExtractor={(post) => post.id}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
+              className=""
               onPress={() => navigation.navigate('Show', { id: item.id })}
             >
-              <View className="px-2 mt-2 flex flex-row justify-between py-5 border border-gray-500">
-                <Text className="text-xl">{item.title}</Text>
+              <View className=" px-2 mt-2 flex flex-row justify-between py-6 dark:bg-gray-200 bg-gray-400 mx-4 rounded-md ">
+                <Text className="dark:text-pink-700 font-light text-xl">
+                  {item.title}
+                </Text>
                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                   <Feather name="trash" size={24} />
                 </TouchableOpacity>
@@ -52,24 +55,8 @@ const IndexScreen = ({ navigation }) => {
         }}
       />
 
-      {/* <Text
-        onPress={() =>
-          setColorScheme(colorScheme === 'light' ? 'dark' : 'light')
-        }
-      >
-        {`The color scheme is ${colorScheme}`}
-      </Text> */}
-
-      {/* <StyledPressable
-        onPress={() =>
-          setColorScheme(colorScheme === 'light' ? 'dark' : 'light')
-        }
-        className="flex-1 items-center justify-center dark:bg-slate-800"
-      >
-        <StyledText selectable={false} className="dark:text-white">
-          {`Try clicking me! ${colorScheme === 'dark' ? '🌙' : '🌞'}`}
-        </StyledText>
-      </StyledPressable> */}
+      <Text className="text-center text-lg dark:bg-pink-700">Toggle Theme</Text>
+      <Switch value={colorScheme === 'dark'} onChange={toggleColorScheme} />
     </View>
   );
 };

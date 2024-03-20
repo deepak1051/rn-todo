@@ -12,19 +12,21 @@ const BlogPostForm = ({
 
   return (
     <View className="mx-2">
-      <Text className="text-xl mb-1">Enter Title:</Text>
+      <Text className="text-thin text-base mb-1">Enter Title:</Text>
       <TextInput
-        className="text-[18px] border mb-3 p-2 rounded"
+        className="text-[18px] border border-gray-400  mb-3 p-2 rounded"
         value={title}
         onChangeText={(text) => setTitle(text)}
         autoFocus
       />
 
-      <Text className="text-xl mb-1">Enter Content:</Text>
+      <Text className="text-thin text-base mb-1">Enter Content:</Text>
       <TextInput
-        className="text-[18px] border mb-3 p-2 rounded"
+        className="text-[18px]  mb-3 p-2 rounded  border"
         value={content}
         onChangeText={(text) => setContent(text)}
+        // multiline={true}
+        // numberOfLines={4}
       />
 
       <Button onPress={() => onSubmit(title, content)} title="Save Blog Post" />
